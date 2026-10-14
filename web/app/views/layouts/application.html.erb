@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MR Review Assistant</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+  <body>
+    <header>
+      <h1><%= link_to "MR Review Assistant", review_runs_path %></h1>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>

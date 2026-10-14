@@ -1,0 +1,22 @@
+<p><%= link_to "Back to reviews", review_runs_path %></p>
+<h2><%= @review_run.repository.name %> — MR !<%= @review_run.merge_request_iid %></h2>
+<p><%= @review_run.title %> · <%= @review_run.status.humanize %></p>
+<% if @review_run.merge_request_url.present? %>
+  <p><%= link_to "Open merge request", @review_run.merge_request_url %></p>
+<% end %>
+
+<h3>Review comments (<%= @review_run.review_comments.size %>)</h3>
+<% @review_run.review_comments.each do |comment| %>
+  <article>
+    <h4><%= comment.severity.humanize %> · <%= comment.category.humanize %></h4>
+    <p><code><%= comment.file_path %>:<%= comment.line_number %></code></p>
+    <p><%= comment.message %></p>
+    <%= form_with url: review_comment_feedback_path(comment), method: :patch do |form| %>
+      <%= form.button "👍 Helpful", name: "feedback", value: "helpful" %>
+      <%= form.button "👎 Not helpful", name: "feedback", value: "not_helpful" %>
+      <% if comment.feedback.present? %>
+        <span>Feedback: <%= comment.feedback.humanize %></span>
+      <% end %>
+    <% end %>
+  </article>
+<% end %>

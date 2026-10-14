@@ -1,0 +1,20 @@
+<h2>Recent reviews</h2>
+<% if @review_runs.empty? %>
+  <p>No reviews yet. Configure a GitLab webhook to start reviewing merge requests.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr><th>Repository</th><th>Merge request</th><th>Status</th><th>Created</th></tr>
+    </thead>
+    <tbody>
+      <% @review_runs.each do |run| %>
+        <tr>
+          <td><%= run.repository.name %></td>
+          <td><%= link_to "##{run.merge_request_iid} #{run.title}", review_run_path(run) %></td>
+          <td><%= run.status.humanize %></td>
+          <td><%= l(run.created_at, format: :short) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
